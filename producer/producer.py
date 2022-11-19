@@ -44,10 +44,17 @@ def main():
     )
 
     try:
+        purgeCounter = 0
         messageCounter = 0
         props = pika.BasicProperties(content_type="text/plain")
         while True:
-            burstSize = random.randrange(100)
+            purgeCounter = purgeCounter + 1
+            if purgeCounter > 4:
+                purgeCounter = 0
+                LOGGER.info("PRODUCER purging queue %s", queue_name)
+                channel.queue_purge(queue_name)
+
+            burstSize = random.randrange(10)
             for _ in range(burstSize):
                 messageCounter = messageCounter + 1
                 t = time.time()

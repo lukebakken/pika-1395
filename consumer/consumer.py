@@ -30,6 +30,8 @@ def on_message(chan, method_frame, _header_frame, body):
         delay,
     )
     chan.basic_ack(delivery_tag=method_frame.delivery_tag)
+    # sleep for 1 second
+    chan.connection.process_data_events(1)
 
 
 def maybe_delay():
