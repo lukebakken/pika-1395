@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  producer:
+    build: producer
+    depends_on:
+      - rmq
+  consumer:
+    build: consumer
+    depends_on:
+      - rmq
+  rmq:
+    build: rmq
+    hostname: rabbitmq
